@@ -1,3 +1,5 @@
+import { buildRecomendations } from "./builders.js";
+
 const title = document.getElementById("title");
 const rating = document.getElementById("rating");
 const description = document.getElementById("description");
@@ -13,7 +15,7 @@ const btnBestByImdb = document.getElementById("btn-best-by-imdb");
 const btnGetMoreThan = document.getElementById("btn-get-more-than");
 const imdb = document.getElementById("imdb");
 
-export const btnUpdateListener = async () => {
+export const btnUpdateListener = async (id) => {
   const result = await fetch("http://localhost:3000/updateRecomendation", {
     method: "POST",
     headers: {
@@ -38,7 +40,7 @@ export const btnUpdateListener = async () => {
   btnInsert.style.display = "block";
 };
 
-const editRecommendation = async (id) => {
+export const editRecommendation = async (id) => {
   const result = await fetch(
     `http://localhost:3000/getRecommendationById/${id}`,
     {
@@ -58,7 +60,97 @@ const editRecommendation = async (id) => {
   btnInsert.style.display = "none";
   btnUpdate.style.display = "block";
   btnUpdate.addEventListener("click", async () => {
-    btnUpdateListener();
+    btnUpdateListener(id);
   });
   insertMessage.innerText = data.response;
+};
+
+export const btnInsertListener = async () => {
+  const result = await fetch("http://localhost:3000/insertRecomentation", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+
+    body: JSON.stringify({
+      title: title.value,
+      rating: rating.value,
+      description: description.value,
+      imdbLink: imdbLink.value,
+    }),
+  });
+  const data = await result.json();
+  insertMessage.innerText = data.response;
+  title.value = "";
+  rating.value = "";
+  description.value = "";
+  imdbLink.value = "";
+};
+
+export const btnDeleteAllListener = async () => {
+  const result = await fetch("http://localhost:3000/deleteAllRecommendations", {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  const data = await result.json();
+  insertMessage.innerText = data.response;
+};
+
+export const btnGetAllListener = async () => {
+  const result = await fetch("http://localhost:3000/getAllRecommendations", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  const data = await result.json();
+  insertMessage.innerText = data.response;
+
+  buildRecomendations(data.recommendations);
+};
+
+export const btnGetAllByImdbListener = async () => {
+  const result = await fetch(
+    "http://localhost:3000/getAllRecommendationsByImdb",
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+  const data = await result.json();
+  insertMessage.innerText = data.response;
+  buildRecomendations(data.recommendations);
+};
+export const btnBestByImdbListener = async () => {
+  const result = await fetch(
+    "http://localhost:3000/getBestRecommendationByImdb",
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+  const data = await result.json();
+  insertMessage.innerText = data.response;
+  buildRecomendations(data.recommendations);
+};
+
+export const btnGetMoreThanListener = async () => {
+  const result = await fetch(
+    `http://localhost:3000/getMoviesHigherThan/${imdb.value}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+  const data = await result.json();
+  insertMessage.innerText = data.response;
+  buildRecomendations(data.recommendations);
 };

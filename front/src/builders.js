@@ -1,3 +1,5 @@
+import { editRecommendation } from "./listeners.js";
+
 const recomendationsWrapper = document.querySelector(".recomendation-wrapper");
 export const buildRecomendations = (recomendations) => {
   recomendationsWrapper.innerHTML = "";
