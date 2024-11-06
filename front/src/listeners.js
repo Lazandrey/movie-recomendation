@@ -41,15 +41,12 @@ export const btnUpdateListener = async (id) => {
 };
 
 export const editRecommendation = async (id) => {
-  const result = await fetch(
-    `http://localhost:3000/getRecommendationById/${id}`,
-    {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }
-  );
+  const result = await fetch(`http://localhost:3000/recommendations/${id}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
   const data = await result.json();
 
   title.value = data.recommendation.title;
@@ -66,7 +63,7 @@ export const editRecommendation = async (id) => {
 };
 
 export const btnInsertListener = async () => {
-  const result = await fetch("http://localhost:3000/insertRecomentation", {
+  const result = await fetch("http://localhost:3000/recommendations", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -88,7 +85,7 @@ export const btnInsertListener = async () => {
 };
 
 export const btnDeleteAllListener = async () => {
-  const result = await fetch("http://localhost:3000/deleteAllRecommendations", {
+  const result = await fetch("http://localhost:3000/recommendations", {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
@@ -99,7 +96,7 @@ export const btnDeleteAllListener = async () => {
 };
 
 export const btnGetAllListener = async () => {
-  const result = await fetch("http://localhost:3000/getAllRecommendations", {
+  const result = await fetch("http://localhost:3000/recommendations", {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -112,22 +109,19 @@ export const btnGetAllListener = async () => {
 };
 
 export const btnGetAllByImdbListener = async () => {
-  const result = await fetch(
-    "http://localhost:3000/getAllRecommendationsByImdb",
-    {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }
-  );
+  const result = await fetch("http://localhost:3000/recommendationsByIMDB", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
   const data = await result.json();
   insertMessage.innerText = data.response;
   buildRecomendations(data.recommendations);
 };
 export const btnBestByImdbListener = async () => {
   const result = await fetch(
-    "http://localhost:3000/getBestRecommendationByImdb",
+    "http://localhost:3000/recommendationsBestByIMDB",
     {
       method: "GET",
       headers: {
@@ -142,7 +136,7 @@ export const btnBestByImdbListener = async () => {
 
 export const btnGetMoreThanListener = async () => {
   const result = await fetch(
-    `http://localhost:3000/getMoviesHigherThan/${imdb.value}`,
+    `http://localhost:3000/recommendationsIMDBMore/${imdb.value}`,
     {
       method: "GET",
       headers: {

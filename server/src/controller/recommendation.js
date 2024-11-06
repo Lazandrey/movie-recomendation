@@ -1,6 +1,6 @@
-const { v4: uuidv4 } = require("uuid");
+import { v4 as uuidv4 } from "uuid";
 
-const { loadRecommendations, saveRecommendations } = require("../utils/utils");
+import { loadRecommendations, saveRecommendations } from "../utils/utils.js";
 
 const recommendations = loadRecommendations();
 
@@ -10,17 +10,24 @@ const isTitleExist = (title) => {
   );
 };
 
-module.exports.GET_ALL_RECOMMENDATIONS = (req, res) => {
+const GET_ALL_RECOMMENDATIONS = (req, res) => {
+  let qty = Number(req.query.qty);
+
+  if (!qty) {
+    qty = 10;
+  }
+
   if (!(recommendations.length === 0)) {
-    return res
-      .status(200)
-      .json({ response: "success", recommendations: recommendations });
+    return res.status(200).json({
+      response: "success",
+      recommendations: [...recommendations].slice(0, qty),
+    });
   } else {
     return res.status(200).json({ responce: "Data not exist" });
   }
 };
 
-module.exports.GET_RECOMENDATION_BY_ID = (req, res) => {
+const GET_RECOMENDATION_BY_ID = (req, res) => {
   const recommendation = recommendations.find(
     (recommendation) => recommendation.id === req.params.id
   );
@@ -33,7 +40,7 @@ module.exports.GET_RECOMENDATION_BY_ID = (req, res) => {
     .json({ responce: "Ok", recommendation: recommendation });
 };
 
-module.exports.GET_ALL_RECOMMENDATIONS_BY_IMDB = (req, res) => {
+const GET_ALL_RECOMMENDATIONS_BY_IMDB = (req, res) => {
   if (!(recommendations.length === 0)) {
     return res.status(200).json({
       response: "success",
@@ -46,13 +53,13 @@ module.exports.GET_ALL_RECOMMENDATIONS_BY_IMDB = (req, res) => {
   }
 };
 
-module.exports.DELETE_AD_RECOMENDATION = (req, res) => {
+const DELETE_AD_RECOMENDATION = (req, res) => {
   recommendations.length = 0;
   saveRecommendations(recommendations);
   return res.status(200).json({ response: "all recommendations were deleted" });
 };
 
-module.exports.INSERT_RECOMENDATION = (req, res) => {
+const INSERT_RECOMENDATION = (req, res) => {
   const recommendation = {
     id: uuidv4(),
     title: req.body.title,
@@ -75,7 +82,7 @@ module.exports.INSERT_RECOMENDATION = (req, res) => {
     recommendation: recommendation,
   });
 };
-module.exports.UPDATE_RECOMENDATION = (req, res) => {
+const UPDATE_RECOMENDATION = (req, res) => {
   const recommendation = {
     id: req.body.id,
     title: req.body.title,
@@ -104,7 +111,7 @@ module.exports.UPDATE_RECOMENDATION = (req, res) => {
   });
 };
 
-module.exports.GET_BEST_RECOMENDATION_BY_IMDB = (req, res) => {
+const GET_BEST_RECOMENDATION_BY_IMDB = (req, res) => {
   if (!(recommendations.length === 0)) {
     return res.status(200).json({
       response: "success",
@@ -117,7 +124,7 @@ module.exports.GET_BEST_RECOMENDATION_BY_IMDB = (req, res) => {
   }
 };
 
-module.exports.GET_MOVIES_HIGHER_THAN = (req, res) => {
+const GET_MOVIES_HIGHER_THAN = (req, res) => {
   if (!(recommendations.length === 0)) {
     return res.status(200).json({
       response: "success",
@@ -129,4 +136,30 @@ module.exports.GET_MOVIES_HIGHER_THAN = (req, res) => {
   } else {
     return res.status(200).json({ responce: "Data not exist" });
   }
+};
+
+const DELETE_RECOMENSATION_BY_ID = (req, res) => {
+  const index = recommendations.findIndex(
+    (recommendation) => recommendation.id === req.params.id
+  );
+  if (index < 0) {
+    return res.status(404).json({ response: "Recommendation not found" });
+  }
+  recommendations.splice(index, 1);
+  saveRecommendations(recommendations);
+  return res
+    .status(200)
+    .json({ response: "Recommendation was deleted successfully" });
+};
+
+export {
+  GET_ALL_RECOMMENDATIONS,
+  GET_RECOMENDATION_BY_ID,
+  GET_ALL_RECOMMENDATIONS_BY_IMDB,
+  DELETE_AD_RECOMENDATION,
+  INSERT_RECOMENDATION,
+  UPDATE_RECOMENDATION,
+  GET_BEST_RECOMENDATION_BY_IMDB,
+  GET_MOVIES_HIGHER_THAN,
+  DELETE_RECOMENSATION_BY_ID,
 };

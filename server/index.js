@@ -1,6 +1,7 @@
-const express = require("express");
-const cors = require("cors");
-const recommendationRouter = require("./src/route/recommendation");
+import express from "express";
+import cors from "cors";
+import recommendationRouter from "./src/route/recommendation.js";
+
 const app = express();
 const PORT = 3000;
 

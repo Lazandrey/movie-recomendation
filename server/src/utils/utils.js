@@ -1,9 +1,9 @@
-const fs = require("node:fs");
-const fsasync = require("node:fs/promises");
+import fs from "node:fs";
+import fsasync from "node:fs/promises";
 
 const saveFilePath = "./recommendations.txt";
 
-module.exports.loadRecommendations = () => {
+const loadRecommendations = () => {
   try {
     const data = fs.readFileSync(saveFilePath, {
       encoding: "utf8",
@@ -15,10 +15,12 @@ module.exports.loadRecommendations = () => {
   }
 };
 
-module.exports.saveRecommendations = async (recommendations) => {
+const saveRecommendations = async (recommendations) => {
   try {
     await fsasync.writeFile(saveFilePath, JSON.stringify(recommendations));
   } catch (err) {
     console.log(err);
   }
 };
+
+export { loadRecommendations, saveRecommendations };
