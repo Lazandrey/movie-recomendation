@@ -6,6 +6,7 @@ const description = document.getElementById("description");
 const imdbLink = document.getElementById("imdbLink");
 const btnInsert = document.getElementById("btn-insert");
 const btnUpdate = document.getElementById("btn-update");
+const btnDelete = document.getElementById("btn-delete");
 const btnGetAll = document.getElementById("btn-get-all");
 const btnGetAllByImdb = document.getElementById("btn-get-all-by-imdb");
 const btnDeleteAll = document.getElementById("btn-delete-all");
@@ -56,12 +57,34 @@ export const editRecommendation = async (id) => {
 
   btnInsert.style.display = "none";
   btnUpdate.style.display = "block";
+  btnDelete.style.display = "block";
   btnUpdate.addEventListener("click", async () => {
     btnUpdateListener(id);
+  });
+
+  btnDelete.addEventListener("click", async () => {
+    btnDeleteListener(id);
   });
   insertMessage.innerText = data.response;
 };
 
+export const btnDeleteListener = async (id) => {
+  const result = await fetch(`http://localhost:3000/recommendations/${id}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  const data = await result.json();
+  insertMessage.innerText = data.response;
+  title.value = "";
+  rating.value = "";
+  description.value = "";
+  imdbLink.value = "";
+  btnUpdate.style.display = "none";
+  btnInsert.style.display = "block";
+  btnDelete.style.display = "none";
+};
 export const btnInsertListener = async () => {
   const result = await fetch("http://localhost:3000/recommendations", {
     method: "POST",

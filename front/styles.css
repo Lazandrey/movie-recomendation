@@ -6,6 +6,9 @@
 #btn-update {
   display: none;
 }
+#btn-delete {
+  display: none;
+}
 #form {
   width: 50%;
   margin: auto;

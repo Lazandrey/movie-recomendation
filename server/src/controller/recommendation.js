@@ -53,7 +53,7 @@ const GET_ALL_RECOMMENDATIONS_BY_IMDB = (req, res) => {
   }
 };
 
-const DELETE_AD_RECOMENDATION = (req, res) => {
+const DELETE_ALL_RECOMENDATION = (req, res) => {
   recommendations.length = 0;
   saveRecommendations(recommendations);
   return res.status(200).json({ response: "all recommendations were deleted" });
@@ -156,7 +156,7 @@ export {
   GET_ALL_RECOMMENDATIONS,
   GET_RECOMENDATION_BY_ID,
   GET_ALL_RECOMMENDATIONS_BY_IMDB,
-  DELETE_AD_RECOMENDATION,
+  DELETE_ALL_RECOMENDATION,
   INSERT_RECOMENDATION,
   UPDATE_RECOMENDATION,
   GET_BEST_RECOMENDATION_BY_IMDB,
