@@ -11,20 +11,40 @@ const isTitleExist = (title) => {
 };
 
 const GET_ALL_RECOMMENDATIONS = (req, res) => {
+  if (recommendations.length === 0) {
+    return res.status(200).json({ responce: "Data not exist" });
+  }
+  let results = recommendations;
+
+  if (req.query.sort == "imdb") {
+    results = results.sort((a, b) => Number(b.rating) - Number(a.rating));
+  }
+
+  let score = Number(req.query.more);
+
+  if (score) {
+    results = results.filter(
+      (recommendation) => Number(recommendation.rating) >= score
+    );
+  }
+
+  if (req.query.best == "imdb") {
+    results = results
+      .sort((a, b) => Number(b.rating) - Number(a.rating))
+      .slice(0, 1);
+  }
+
   let qty = Number(req.query.qty);
 
   if (!qty) {
     qty = 10;
   }
+  results = results.slice(0, qty);
 
-  if (!(recommendations.length === 0)) {
-    return res.status(200).json({
-      response: "success",
-      recommendations: [...recommendations].slice(0, qty),
-    });
-  } else {
-    return res.status(200).json({ responce: "Data not exist" });
-  }
+  return res.status(200).json({
+    response: "success",
+    recommendations: results,
+  });
 };
 
 const GET_RECOMENDATION_BY_ID = (req, res) => {

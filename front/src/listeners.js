@@ -132,19 +132,22 @@ export const btnGetAllListener = async () => {
 };
 
 export const btnGetAllByImdbListener = async () => {
-  const result = await fetch("http://localhost:3000/recommendationsByIMDB", {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+  const result = await fetch(
+    "http://localhost:3000/recommendations?sort=imdb",
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
   const data = await result.json();
   insertMessage.innerText = data.response;
   buildRecomendations(data.recommendations);
 };
 export const btnBestByImdbListener = async () => {
   const result = await fetch(
-    "http://localhost:3000/recommendationsBestByIMDB",
+    "http://localhost:3000/recommendations?best=imdb",
     {
       method: "GET",
       headers: {
@@ -159,7 +162,7 @@ export const btnBestByImdbListener = async () => {
 
 export const btnGetMoreThanListener = async () => {
   const result = await fetch(
-    `http://localhost:3000/recommendationsIMDBMore/${imdb.value}`,
+    `http://localhost:3000/recommendations?more=${imdb.value}`,
     {
       method: "GET",
       headers: {
