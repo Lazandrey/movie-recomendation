@@ -20,11 +20,10 @@ const GET_ALL_RECOMMENDATIONS = (req, res) => {
     results = results.sort((a, b) => Number(b.rating) - Number(a.rating));
   }
 
-  let score = Number(req.query.more);
-
-  if (score) {
+  if (req.query.more) {
     results = results.filter(
-      (recommendation) => Number(recommendation.rating) >= score
+      (recommendation) =>
+        Number(recommendation.rating) >= Number(req.query.more)
     );
   }
 
