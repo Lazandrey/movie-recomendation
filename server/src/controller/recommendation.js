@@ -101,14 +101,7 @@ const INSERT_RECOMENDATION = (req, res) => {
     recommendation: recommendation,
   });
 };
-const UPDATE_RECOMENDATION = (req, res) => {
-  const recommendation = {
-    id: req.body.id,
-    title: req.body.title,
-    rating: req.body.rating,
-    description: req.body.description,
-    imdbLink: req.body.imdbLink,
-  };
+const UPDATE_RECOMENDATION_BY_ID = (req, res) => {
   const index = recommendations.findIndex(
     (recommendation) => recommendation.id === req.body.id
   );
@@ -121,12 +114,11 @@ const UPDATE_RECOMENDATION = (req, res) => {
     return res.status(404).json({ response: err.message });
   }
 
-  recommendations[index] = recommendation;
+  recommendations[index] = { ...recommendations[index], ...req.body };
 
   saveRecommendations(recommendations);
-  return res.status(201).json({
+  return res.status(200).json({
     response: "Recommendation was updated successfully",
-    recommendation: recommendation,
   });
 };
 
@@ -177,7 +169,7 @@ export {
   GET_ALL_RECOMMENDATIONS_BY_IMDB,
   DELETE_ALL_RECOMENDATION,
   INSERT_RECOMENDATION,
-  UPDATE_RECOMENDATION,
+  UPDATE_RECOMENDATION_BY_ID,
   GET_BEST_RECOMENDATION_BY_IMDB,
   GET_MOVIES_HIGHER_THAN,
   DELETE_RECOMENSATION_BY_ID,

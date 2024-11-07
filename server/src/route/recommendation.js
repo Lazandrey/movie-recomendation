@@ -5,7 +5,7 @@ import {
   GET_RECOMENDATION_BY_ID,
   DELETE_ALL_RECOMENDATION,
   INSERT_RECOMENDATION,
-  UPDATE_RECOMENDATION,
+  UPDATE_RECOMENDATION_BY_ID,
   DELETE_RECOMENSATION_BY_ID,
 } from "../controller/recommendation.js";
 
@@ -19,6 +19,6 @@ router.delete("/recommendations", DELETE_ALL_RECOMENDATION);
 router.delete("/recommendations/:id", DELETE_RECOMENSATION_BY_ID);
 
 router.post("/recommendations", INSERT_RECOMENDATION);
-router.post("/updateRecomendation", UPDATE_RECOMENDATION);
+router.put("/recommendations/:id", UPDATE_RECOMENDATION_BY_ID);
 
 export default router;

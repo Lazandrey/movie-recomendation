@@ -17,8 +17,8 @@ const btnGetMoreThan = document.getElementById("btn-get-more-than");
 const imdb = document.getElementById("imdb");
 
 export const btnUpdateListener = async (id) => {
-  const result = await fetch("http://localhost:3000/updateRecomendation", {
-    method: "POST",
+  const result = await fetch(`http://localhost:3000/recommendations/${id}`, {
+    method: "PUT",
     headers: {
       "Content-Type": "application/json",
     },
