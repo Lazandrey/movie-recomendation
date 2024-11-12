@@ -1,7 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
 
 import recommendationModel from "../model/recommendation.js";
-import { saveRecommendations } from "../utils/utils.js";
 
 const isTitleExist = async (title) => {
   try {
@@ -67,10 +66,23 @@ const GET_RECOMENDATION_BY_ID = async (req, res) => {
   }
 };
 
-const DELETE_ALL_RECOMENDATION = (req, res) => {
-  recommendations.length = 0;
-  saveRecommendations(recommendations);
-  return res.status(200).json({ response: "all recommendations were deleted" });
+const DELETE_ALL_RECOMENDATION = async (req, res) => {
+  try {
+    const recordsQty = await recommendationModel.countDocuments();
+
+    const response = await recommendationModel.deleteMany();
+
+    if (!response.deletedCount == recordsQty) {
+      return res.status(404).json({ response: "Recommendations not found" });
+    }
+
+    return res
+      .status(200)
+      .json({ response: "Recommendations was deleted successfully" });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ message: "we have some problems" });
+  }
 };
 
 const INSERT_RECOMENDATION = async (req, res) => {
@@ -101,6 +113,7 @@ const INSERT_RECOMENDATION = async (req, res) => {
     return res.status(500).json({ message: "we have some problems" });
   }
 };
+
 const UPDATE_RECOMENDATION_BY_ID = async (req, res) => {
   try {
     const recommendation = await recommendationModel.updateOne(
