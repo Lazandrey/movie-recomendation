@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./styles.css" />
+    <script type="module" defer src="./scripts.js"></script>
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="form">
+      <input type="text" id="title" placeholder="title" />
+      <input type="text" id="rating" placeholder="rating" />
+      <input type="text" id="description" placeholder="description" />
+      <input type="text" id="imdbLink" placeholder="imdbLink" />
+      <input type="submit" value="Insert data" id="btn-insert" />
+      <input type="submit" value="Update data" id="btn-update" />
+      <input type="submit" value="Delete data" id="btn-delete" />
+      <p id="insert-message"></p>
+    </div>
+    <div class="btn-wrapper">
+      <button id="btn-get-all">Get all recomentations</button>
+      <button id="btn-get-all-by-imdb">Get all recomentations by IMDB</button>
+      <button id="btn-best-by-imdb">Get best recomentation</button>
+      <button id="btn-delete-all">Delete all recomentations</button>
+      <button id="btn-get-more-than">Get recomentations more than</button>
+      <input type="text" id="imdb" placeholder="IMDB rating" />
+    </div>
+    <div class="recomendation-wrapper"></div>
+  </body>
+</html>
