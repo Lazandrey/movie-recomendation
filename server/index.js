@@ -16,9 +16,8 @@ mongoose
   .catch(() => {
     console.log("bad connection");
   });
-
-app.use(recommendationRouter);
 app.use(userRouter);
+app.use(recommendationRouter);
 
 app.use((req, res) => {
   res.status(404).json({ response: "your endpoint does not exit" });
