@@ -11,7 +11,6 @@ const isTitleExist = async (title) => {
 };
 
 const GET_ALL_RECOMMENDATIONS = async (req, res) => {
-  console.log(req.body);
   try {
     let options = {};
     let query = {};
