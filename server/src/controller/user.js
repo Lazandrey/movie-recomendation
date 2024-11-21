@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import userModel from "../model/user.js";
 import { isValidCreateUser } from "../utils/vlidations.js";
+import { authUserId, reAuthUserId } from "../utils/authuserid.js";
 
 const SIGN_IN = async (req, res) => {
   const errors = await isValidCreateUser(req.body);
@@ -60,6 +61,11 @@ const LOGIN = async (req, res) => {
       process.env.TOKEN_KEY,
       { expiresIn: "12h" }
     );
+    const userToken = authUserId(user.id);
+    const userId = reAuthUserId(userToken);
+    console.log(user.id);
+    console.log(userToken);
+    console.log(userId);
     return res.status(200).json({ message: "Successfull login", token: token });
   } catch (err) {
     console.log(err);

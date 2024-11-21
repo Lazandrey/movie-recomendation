@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import "dotenv/config";
 import recommendationRouter from "./src/route/recommendation.js";
 import userRouter from "./src/route/user.js";
+import favoriteRouter from "./src/route/favorite.js";
 
 const app = express();
 
@@ -18,6 +19,7 @@ mongoose
   });
 app.use(userRouter);
 app.use(recommendationRouter);
+app.use(favoriteRouter);
 
 app.use((req, res) => {
   res.status(404).json({ response: "your endpoint does not exit" });

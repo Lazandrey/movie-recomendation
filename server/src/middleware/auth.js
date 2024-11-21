@@ -7,7 +7,8 @@ const authUsewr = async (req, res, next) => {
   }
   try {
     const decoded = jwt.verify(token, process.env.TOKEN_KEY);
-    req.body.id = decoded.id;
+    req.body.userId = decoded.id;
+    req.body.email = decoded.email;
     next();
   } catch (err) {
     return res.status(401).json({ message: "Unauthorized" });

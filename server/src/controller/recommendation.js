@@ -14,6 +14,7 @@ const GET_ALL_RECOMMENDATIONS = async (req, res) => {
   try {
     let options = {};
     let query = {};
+
     if (req.query.sort == "imdb") {
       options.sort = "-rating";
     }
